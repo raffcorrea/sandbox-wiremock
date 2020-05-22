@@ -1,0 +1,30 @@
+{
+  "Guid": "67ae335b-5d79-42dc-8ca7-236280ab91ec",
+  "Priority": 0,
+  "Request": {
+    "Path": {
+      "Matchers": [
+        {
+          "Name": "WildcardMatcher",
+          "Pattern": "/ws/*/json"
+        }
+      ]
+    },
+    "Methods": [ "GET" ]
+  },
+  "Response": {
+    "Status": 200,
+    "BodyAsJson": {
+      "cep": "55555-106",
+      "logradouro": "Mocked Rua Dezessete de Junho",
+      "complemento": "Mocked de 2451/2452 ao fim",
+      "bairro": "Mocked Centro",
+      "localidade": "Mocked",
+      "uf": "YY",
+      "unidade": "",
+      "ibge": "1111111",
+      "gia": ""
+    },
+    "Headers": { "Content-Type": "application/json" }
+  }
+}
