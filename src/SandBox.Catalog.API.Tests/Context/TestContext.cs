@@ -19,7 +19,7 @@ namespace SandBox.Catalog.API.Tests.Context
 
         public HttpClient HttpClient { get; private set; }
 
-        public FluentMockServer MockServer { get; private set; }
+        public WireMockServer MockServer { get; private set; }
 
         public TestContext(WebApplicationFactory<Startup> factory)
         {
@@ -53,7 +53,7 @@ namespace SandBox.Catalog.API.Tests.Context
         }
 
         #region Private Methods
-        private FluentMockServer SetupMockedServer()
+        private WireMockServer SetupMockedServer()
         {
             FluentMockServerSettings settings = new FluentMockServerSettings()
             {
@@ -61,7 +61,7 @@ namespace SandBox.Catalog.API.Tests.Context
                 ReadStaticMappings = true,
             };
 
-            FluentMockServer mockServer = FluentMockServer.Start(settings);
+            WireMockServer mockServer = WireMockServer.Start(settings);
             mockServer.ReadStaticMappings("Mappings/");
 
             return mockServer;

@@ -5,7 +5,6 @@ using SandBox.Catalog.API.Tests.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
@@ -36,8 +35,7 @@ namespace SandBox.Catalog.API.Tests
             actualResponseContent = await response.Content.ReadAsStringAsync();
             catalogsResponse = JsonConvert.DeserializeObject<List<CatalogModel>>(actualResponseContent);
 
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.False(catalogsResponse.All(c => c.Name.startsWith("Mocked")));
+            Assert.Equal(3, catalogsResponse.Count());
         }
     }
 }
