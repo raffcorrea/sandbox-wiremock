@@ -12,10 +12,11 @@ using Xunit;
 
 namespace SandBox.Catalog.API.Tests
 {
+    [Collection("TestSharedContextCollection")]
     public class CatalogClientTests : TestContext
     {
         public CatalogClientTests(WebApplicationFactory<Startup> factory)
-            : base(factory, 5348, false)
+            : base(factory)
         {
         }
 

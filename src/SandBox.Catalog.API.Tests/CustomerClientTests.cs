@@ -4,17 +4,17 @@ using SandBox.Catalog.API.Models;
 using SandBox.Catalog.API.Tests.Context;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace SandBox.Catalog.API.Tests
 {
+    [Collection("TestSharedContextCollection")]
     public class CustomerClientTests : TestContext
     {
         public CustomerClientTests(WebApplicationFactory<Startup> factory) 
-            : base(factory, 5347, false)
+            : base(factory)
         {
         }
 
@@ -38,7 +38,7 @@ namespace SandBox.Catalog.API.Tests
         }
 
         /// <summary>
-        /// This method create a Url configuration using mockserver url to be used by the API, this allow WireMockServer match the http request mapped.
+        /// This method creates configurations using mockserver url, that will be used by the API instead of configured in appsettings, this setup allows Wire Mock Server matches the http request mapped.
         /// </summary>
         /// <returns></returns>
         protected override Dictionary<string, string> GetConfiguration()

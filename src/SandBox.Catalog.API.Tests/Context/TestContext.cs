@@ -5,31 +5,24 @@ using System.Collections.Generic;
 using System.Net.Http;
 using WireMock.Server;
 using WireMock.Settings;
-using Xunit;
 
 namespace SandBox.Catalog.API.Tests.Context
 {
-    public class TestContext : IDisposable, IClassFixture<WebApplicationFactory<Startup>>
+    public class TestContext : IDisposable
     {
-        protected readonly HttpClient HttpClient;
+        private readonly WebApplicationFactory<Startup> _webFactory;
+
+        public HttpClient HttpClient { get; private set; }
+
         public FluentMockServer MockServer { get; private set; }
 
-        public TestContext(WebApplicationFactory<Startup> factory, int portNumber, bool useHttps)
+        public TestContext(WebApplicationFactory<Startup> factory)
         {
+            _webFactory = factory;
+
             MockServer = SetupMockedServer();
 
-            Dictionary<string, string> extraConfiguration = GetConfiguration();
-            string afterHttp = useHttps ? "s" : "";
-            HttpClient = factory.WithWebHostBuilder(whb =>
-            {
-                whb.ConfigureAppConfiguration((context, configbuilder) =>
-                {
-                    configbuilder.AddInMemoryCollection(extraConfiguration);
-                });
-            }).CreateClient(new WebApplicationFactoryClientOptions
-            {
-                BaseAddress = new Uri($"http{afterHttp}://localhost:{portNumber}")
-            });
+            HttpClient = SetupApiClient();
         }
 
         private FluentMockServer SetupMockedServer()
@@ -44,6 +37,24 @@ namespace SandBox.Catalog.API.Tests.Context
             mockServer.ReadStaticMappings("Mappings/");
 
             return mockServer;
+        }
+
+        private HttpClient SetupApiClient()
+        {
+            Dictionary<string, string> extraConfiguration = GetConfiguration();
+
+            HttpClient httpClient = _webFactory.WithWebHostBuilder(whb =>
+            {
+                whb.ConfigureAppConfiguration((context, configbuilder) =>
+                {
+                    configbuilder.AddInMemoryCollection(extraConfiguration);
+                });
+            }).CreateClient(new WebApplicationFactoryClientOptions
+            {
+                BaseAddress = new Uri("http://localhost:5348")
+            });
+
+            return httpClient;
         }
 
         protected virtual Dictionary<string, string> GetConfiguration()
