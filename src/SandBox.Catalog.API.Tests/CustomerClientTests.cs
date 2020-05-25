@@ -13,6 +13,8 @@ namespace SandBox.Catalog.API.Tests
     [Collection("TestSharedContextCollection")]
     public class CustomerClientTests : TestContext
     {
+        private const string CEP_API_URL_SECTION = "CepApiOptions:Url";
+
         public CustomerClientTests(WebApplicationFactory<Startup> factory) 
             : base(factory)
         {
@@ -41,11 +43,11 @@ namespace SandBox.Catalog.API.Tests
         /// This method creates configurations using mockserver url, that will be used by the API instead of configured in appsettings, this setup allows Wire Mock Server matches the http request mapped.
         /// </summary>
         /// <returns></returns>
-        protected override Dictionary<string, string> GetConfiguration()
+        protected override Dictionary<string, string> GetApiClientExtraConfiguration()
         {
             string requestUrl = MockServer.Urls.Single();
-            Dictionary<string, string> configuration = base.GetConfiguration();
-            configuration.Add("CepApiOptions:Url", requestUrl);
+            Dictionary<string, string> configuration = base.GetApiClientExtraConfiguration();
+            configuration.Add(CEP_API_URL_SECTION, requestUrl);
             return configuration;
         }
     }

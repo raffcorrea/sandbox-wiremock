@@ -22,6 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Mappings\get_customer_ok.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
